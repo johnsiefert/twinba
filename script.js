@@ -11,8 +11,9 @@ function Input() {
 }
 
 function getFeedHtml() {
-  for (let tweet of tweetsData) {
-    const feedHtml = `<div class="tweet">
+  let feedHtml = ``;
+  tweetsData.forEach(function (tweet) {
+    feedHtml += `<div class="tweet">
     <div class="tweet-inner">
         <img src="${tweet.profilePic}" class="profile-pic">
         <div>
@@ -33,7 +34,12 @@ function getFeedHtml() {
     </div>
 </div>
  `;
-    console.log(feedHtml);
-  }
+  });
+  return feedHtml;
 }
-getFeedHtml();
+
+function renderTweet() {
+document.querySelector('#feed').innerHTML =getFeedHtml();
+
+}
+renderTweet();
