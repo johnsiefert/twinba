@@ -9,9 +9,10 @@ function Input() {
   console.log(tweetInput.value);
   tweetInput.value = '';
 }
-
+let isLiked = false;
 document.addEventListener('click', function (e) {
   if (e.target.dataset.like) {
+    isLiked = !isLiked;
     handleLikeClick(e.target.dataset.like);
   } else if (e.target.dataset.retweets) {
     handleRetweetClick(e.target.dataset.retweets);
@@ -50,6 +51,18 @@ function handleRetweetClick(tweetId) {
 function getFeedHtml() {
   let feedHtml = ``;
   tweetsData.forEach(function (tweet) {
+    let likeIconClass = '';
+
+    if (tweet.isLiked) {
+      likeIconClass = 'liked';
+    }
+
+    let retweetIconClass = '';
+
+    if (tweet.isRetweeted) {
+      retweetIconClass = 'retweeted';
+    }
+
     feedHtml += `<div class="tweet">
     <div class="tweet-inner">
         <img src="${tweet.profilePic}" class="profile-pic">
@@ -62,11 +75,11 @@ function getFeedHtml() {
                     ${tweet.replies.length}
                 </span>
                 <span class="tweet-detail">
-                <i class="fa-solid fa-heart" data-like="${tweet.uuid}"></i>
+                <i class="fa-solid fa-heart ${likeIconClass}" data-like="${tweet.uuid}"></i>
                     ${tweet.likes}
                 </span>
                 <span class="tweet-detail">
-                <i class="fa-solid fa-retweet" data-retweets="${tweet.uuid}"></i>
+                <i class="fa-solid fa-retweet ${retweetIconClass}" data-retweets="${tweet.uuid}"></i>
                     ${tweet.retweets}
                 </span>
             </div>
