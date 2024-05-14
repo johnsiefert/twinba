@@ -13,14 +13,38 @@ function Input() {
 document.addEventListener('click', function (e) {
   if (e.target.dataset.like) {
     handleLikeClick(e.target.dataset.like);
+  } else if (e.target.dataset.retweets) {
+    handleRetweetClick(e.target.dataset.retweets);
   }
 });
 
 function handleLikeClick(tweetId) {
-const targetTweetObj = tweetsData.filter(function(tweet){
-return tweet.uuid === tweetId
-})[0]
-targetTweetObj.likes++
+  const targetTweetObj = tweetsData.filter(function (tweet) {
+    return tweet.uuid === tweetId;
+  })[0];
+
+  if (targetTweetObj.isLiked) {
+    targetTweetObj.likes--;
+  } else {
+    targetTweetObj.likes++;
+  }
+
+  targetTweetObj.isLiked = !targetTweetObj.isLiked;
+  renderTweet();
+}
+
+function handleRetweetClick(tweetId) {
+  const targetRetweetObj = tweetsData.filter(function (tweet) {
+    return tweet.uuid === tweetId;
+  })[0];
+
+  if (targetRetweetObj.isRetweeted) {
+    targetRetweetObj.retweets--;
+  } else {
+    targetRetweetObj.retweets++;
+  }
+  targetRetweetObj.isRetweeted = !targetRetweetObj.isRetweeted;
+  renderTweet();
 }
 
 function getFeedHtml() {
@@ -42,7 +66,7 @@ function getFeedHtml() {
                     ${tweet.likes}
                 </span>
                 <span class="tweet-detail">
-                <i class="fa-solid fa-retweet" data-retweet="${tweet.uuid}"></i>
+                <i class="fa-solid fa-retweet" data-retweets="${tweet.uuid}"></i>
                     ${tweet.retweets}
                 </span>
             </div>
