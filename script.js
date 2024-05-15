@@ -3,7 +3,6 @@ import { v4 as uuidv4 } from 'https://jspm.dev/uuid';
 
 document.addEventListener('click', function (e) {
   if (e.target.dataset.like) {
-    isLiked = !isLiked;
     handleLikeClick(e.target.dataset.like);
   } else if (e.target.dataset.retweets) {
     handleRetweetClick(e.target.dataset.retweets);
